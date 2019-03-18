@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.briup.dao.Dao">
+	<!-- 学生mapper -->
+	<resultMap id="BaseResultMap" type="com.briup.model.User">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="xuehao" property="xuehao" jdbcType="INTEGER" />
+		<result column="gender" property="gender" jdbcType="VARCHAR" />
+		<result column="jiguan" property="jiguan" jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<result column="beizhu" property="beizhu" jdbcType="VARCHAR" />
+		<result column="createDate" property="createDate" jdbcType="VARCHAR" />
+		<result column="updateDate" property="updateDate" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="VARCHAR" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,age,username,password,xuehao,gender,jiguan,beizhu,createDate,updateDate,birthday,telephone
+	</sql>
+	<!-- 通过用户名查找学生 -->
+	<select id="SelectUserName" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from student
+		where UserName = #{UserName,jdbcType=VARCHAR}
+	</select>
+	<!-- 登陆 -->
+	<select id="Login" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from student
+		where UserName = #{UserName,jdbcType=VARCHAR}
+	</select>
+	<!-- 通过学生姓名删除学生 -->
+	<delete id="deleteUserByUserName" parameterType="java.lang.String">
+		delete from
+		student
+		where UserName = #{UserName,jdbcType=VARCHAR}
+	</delete>
+	<!--新增学生 -->
+	<insert id="insertUser" parameterType="com.briup.model.User">
+		insert into student
+		(username,age,password,xuehao,gender,jiguan,telephone,createDate,beizhu,birthday)
+		values
+		(#{username,jdbcType=VARCHAR},#{age,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},#{xuehao,jdbcType=VARCHAR},#{gender,jdbcType=VARCHAR},
+		#{jiguan,jdbcType=VARCHAR},#{telephone,jdbcType=VARCHAR},#{createDate,jdbcType=VARCHAR},#{beizhu,jdbcType=VARCHAR},
+		#{birthday,jdbcType=VARCHAR}
+
+		)
+	</insert>
+	<!--更新学生信息 -->
+	<update id="updateUser" parameterType="com.briup.model.User">
+		update student
+		set
+		username
+		= #{username,jdbcType=VARCHAR},
+		age =
+		#{age,jdbcType=VARCHAR},
+		password =
+		#{password,jdbcType=VARCHAR},
+		updateDate =
+		#{updateDate,jdbcType=VARCHAR},
+		xuehao =
+		#{xuehao,jdbcType=VARCHAR},
+		gender =
+		#{gender,jdbcType=VARCHAR},
+		jiguan =
+		#{jiguan,jdbcType=VARCHAR},
+		telephone =
+		#{telephone,jdbcType=VARCHAR},
+		beizhu =
+		#{beizhu,jdbcType=VARCHAR},
+		birthday =
+		#{birthday,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectStudent" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from student
+	</select>
+
+	<!-- 留言mapper -->
+	<resultMap id="Liuyan" type="com.briup.model.Liuyan">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="liuyan" property="liuyan" jdbcType="VARCHAR" />
+		<result column="createdate" property="createdate" jdbcType="VARCHAR" />
+
+	</resultMap>
+	<sql id="Liuyan_List">
+		id,Liuyan,createdate
+	</sql>
+	<!--查看所有留言 -->
+	<select id="SelectLiuYan" resultMap="Liuyan" parameterType="java.lang.String">
+		select
+		<include refid="Liuyan_List" />
+		from liuyan
+	</select>
+	<!-- 新增留言 -->
+	<insert id="addLiuyan" parameterType="com.briup.model.Liuyan">
+		insert into liuyan
+		(liuyan,createdate)
+		values
+		(#{liuyan,jdbcType=VARCHAR},#{createdate,jdbcType=VARCHAR}
+		)
+	</insert>
+
+
+
+	<!-- 教师mapper -->
+	<resultMap id="Teacher" type="com.briup.model.Teacher">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="gender" property="gender" jdbcType="VARCHAR" />
+		<result column="usercode" property="usercode" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="course" property="course" jdbcType="VARCHAR" />
+		<result column="createdate" property="createdate" jdbcType="VARCHAR" />
+		<result column="updatedate" property="updatedate" jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	<sql id="Teacher_list">
+		id,username,gender,usercode,password,course,createdate,updatedate,telephone,birthday
+	</sql>
+	<!-- 通过教师姓名查询教师信息 -->
+	<select id="SelectTeacherByUserName" resultMap="Teacher"
+		parameterType="java.lang.String">
+		select
+		<include refid="Teacher_list" />
+		from teacher
+		where username = #{username,jdbcType=VARCHAR}
+	</select>
+	<!-- 新增教师信息 -->
+	<insert id="insertTeacher" parameterType="com.briup.model.Teacher">
+		insert into teacher
+		(username,password,usercode,gender,course,telephone,createdate,birthday)
+		values
+		(#{username,jdbcType=VARCHAR},#{usercode,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},#{gender,jdbcType=VARCHAR},
+		#{course,jdbcType=VARCHAR},#{telephone,jdbcType=VARCHAR},#{createdate,jdbcType=VARCHAR},#{birthday,jdbcType=VARCHAR}
+		)
+	</insert>
+	<!-- 修改教师信息 -->
+	<update id="updateTeacher" parameterType="com.briup.model.Teacher">
+	
+		update teacher
+		set
+		username
+		= #{username,jdbcType=VARCHAR},
+		password =
+		#{password,jdbcType=VARCHAR},
+		updatedate =
+		#{updatedate,jdbcType=VARCHAR},
+		gender =
+		#{gender,jdbcType=VARCHAR},
+		usercode =
+		#{usercode,jdbcType=VARCHAR},
+		telephone =
+		#{telephone,jdbcType=VARCHAR},
+		course =
+		#{course,jdbcType=VARCHAR},
+		birthday =
+		#{birthday,jdbcType=VARCHAR}
+		
+		where
+		id = #{id,jdbcType=INTEGER}
+	</update>
+	<!-- 通过教师姓名删除教师 -->
+	<delete id="deleteTeacherByUserName" parameterType="java.lang.String">
+		delete from
+		teacher
+		where UserName = #{UserName,jdbcType=VARCHAR}
+	</delete>
+	<!--查看所有教师信息 -->
+	<select id="selectAllTeacher" resultMap="Teacher" parameterType="java.lang.String">
+		select
+		<include refid="Teacher_list" />
+		from teacher
+	</select>
+	<!-- 教师登录 -->
+	<select id="LoginTeacher" resultMap="Teacher" parameterType="java.lang.String">
+		select
+		<include refid="Teacher_list" />
+		from teacher
+		where UserName = #{UserName,jdbcType=VARCHAR}
+	</select>
+	
+	
+	<!-- 课程mapper -->	
+	<resultMap id="Kecheng" type="com.briup.model.Kecheng">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="coursecode" property="coursecode" jdbcType="VARCHAR" />
+		<result column="coursename" property="coursename" jdbcType="VARCHAR" />
+		<result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
+
+	</resultMap>
+	<sql id="Kecheng_list">
+		id,coursecode,coursename,createdate
+	</sql>
+	
+	<select id="selectCourseByCourseCode" resultMap="Kecheng" parameterType="java.lang.String">
+		select
+		<include refid="Kecheng_list" />
+		from course
+		where coursecode = #{coursecode,jdbcType=VARCHAR}
+	</select>	
+	<!-- 新增课程信息 -->
+	<insert id="addCourse" parameterType="com.briup.model.Kecheng">
+		insert into course
+		(coursename,coursecode,createdate)
+		values
+		(#{coursename,jdbcType=VARCHAR},#{coursecode,jdbcType=VARCHAR},
+		#{createdate,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<!-- 修改课程信息 -->
+	<update id="updateCourse" parameterType="com.briup.model.Kecheng">
+		update course
+		set
+		coursename
+		= #{coursename,jdbcType=VARCHAR},
+		coursecode =
+		#{coursecode,jdbcType=VARCHAR}
+		
+		where
+		id = #{id,jdbcType=BIGINT}
+	</update>
+	<!-- 通过课程名称删除课程 -->
+	<delete id="DeleteCourse" parameterType="java.lang.String">
+		delete from
+		course
+		where coursename = #{coursename,jdbcType=VARCHAR}
+	</delete>
+	<!-- 成绩mapper -->	
+	<resultMap id="Chengji" type="com.briup.model.Chengji">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="xuehao" property="xuehao" jdbcType="VARCHAR" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="coursename" property="coursename" jdbcType="VARCHAR" />
+		<result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
+
+	</resultMap>
+	<sql id="Chengji_list">
+		id,xuehao,coursename,createdate,username,chengji
+	</sql>
+	<!-- 通过username查找成绩信息 -->
+	<select id="SelectChengjiByUsername" resultMap="Chengji" parameterType="java.lang.String">
+		select
+		<include refid="Chengji_list" />
+		from chengji
+		where username = #{username,jdbcType=VARCHAR}
+	</select>	
+	<!-- 新增成绩信息 -->
+	<insert id="addChengji" parameterType="com.briup.model.Chengji">
+		insert into chengji
+		(xuehao,coursename,createdate,username,chengji)
+		values
+		(#{xuehao,jdbcType=INTEGER},#{coursename,jdbcType=VARCHAR},
+		#{createdate,jdbcType=VARCHAR},#{username,jdbcType=VARCHAR},#{chengji,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<!-- 修改成绩信息 -->
+	<update id="updateChengji" parameterType="com.briup.model.Chengji">
+		update chengji
+		set
+		chengji
+		= #{chengji,jdbcType=VARCHAR},
+			coursename= #{coursename,jdbcType=VARCHAR}
+		where
+		id = #{id,jdbcType=BIGINT}
+	</update>
+	<!-- 通过id删除成绩 -->
+	<delete id="DeleteChengji" parameterType="java.lang.Long">
+		delete from
+		chengji
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+		<!-- 班级mapper -->	
+	<resultMap id="Banji" type="com.briup.model.Banji">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="banjimingcheng" property="banjimingcheng" jdbcType="VARCHAR" />
+		<result column="xueyuan" property="xueyuan" jdbcType="VARCHAR" />
+		<result column="banzhuren" property="banzhuren" jdbcType="VARCHAR" />
+		<result column="createdate" property="createDate" jdbcType="TIMESTAMP" />
+
+	</resultMap>
+	<sql id="Banji_list">
+		id,banjimingcheng,xueyuan,createdate,banzhuren
+	</sql>
+	<!-- 通过班级名称查找班级信息 -->
+	<select id="SelectBanji" resultMap="Banji" parameterType="java.lang.String">
+		select
+		<include refid="Banji_list" />
+		from banji
+		where banjimingcheng = #{banjimingcheng,jdbcType=VARCHAR}
+	</select>	
+	<!-- 修改班级信息 -->
+	<update id="updateBanji" parameterType="com.briup.model.Banji">
+		update Banji
+		set
+		banjimingcheng
+		= #{banjimingcheng,jdbcType=VARCHAR},
+			xueyuan= #{xueyuan,jdbcType=VARCHAR},banzhuren= #{banzhuren,
+			jdbcType=VARCHAR}
+		where
+		id = #{id,jdbcType=BIGINT}
+	</update>
+	<!-- 新增班级信息 -->
+	<insert id="addBanji" parameterType="com.briup.model.Banji">
+		insert into Banji
+		(banjimingcheng,xueyuan,createdate,banzhuren)
+		values
+		(#{banjimingcheng,jdbcType=VARCHAR},#{xueyuan,jdbcType=VARCHAR},
+		#{createDate,jdbcType=VARCHAR},#{banzhuren,jdbcType=VARCHAR}
+		)
+	</insert>
+	<!-- 通过班级名称删除班级 -->
+	<delete id="deleteBanji" parameterType="java.lang.String">
+		delete from
+		banji
+		where banjimingcheng = #{banjimingcheng,jdbcType=VARCHAR}
+	</delete>
+	<!-- 所有用户mapper -->
+	<resultMap id="Alluser" type="com.briup.model.Alluser">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="quanxian" property="quanxian" jdbcType="VARCHAR" />
+		<result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="All_user_list">
+		id,username,password,quanxian,createdate
+	</sql>
+	<select id="SelectUser" resultMap="Alluser" parameterType="java.lang.String">
+		select
+		<include refid="All_user_list" />
+		from alluser
+		where username = #{username,jdbcType=VARCHAR}
+	</select>	
+	<!-- 新增权限用户 -->
+	<insert id="addUser" parameterType="com.briup.model.Alluser">
+		insert into alluser
+		(username,password,createdate,quanxian)
+		values
+		(#{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},
+		#{createdate,jdbcType=VARCHAR},#{quanxian,jdbcType=VARCHAR}
+		)
+	</insert>
+	<!-- 修改权限信息 -->
+	<update id="updateQuanXianUser" parameterType="com.briup.model.Alluser">
+		update alluser
+		set
+		username
+		= #{username,jdbcType=VARCHAR},
+			password= #{password,jdbcType=VARCHAR},quanxian= #{quanxian,jdbcType=VARCHAR}
+		where
+		id = #{id,jdbcType=BIGINT}
+	</update>
+	<!-- 通过用户名删除权限用户 -->
+	<delete id="DeletequanxianUser" parameterType="java.lang.String">
+		delete from
+		alluser
+		where username = #{username,jdbcType=VARCHAR}
+	</delete>
+	<!-- 管理员登录 -->
+	<select id="LoginAdmin" resultMap="Alluser" parameterType="java.lang.String">
+		select
+		<include refid="All_user_list" />
+		from alluser
+		where username = #{userName,jdbcType=VARCHAR}
+	</select>	
+	
+	
+
+</mapper>
